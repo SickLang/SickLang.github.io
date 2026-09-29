@@ -1,0 +1,8 @@
+Add JPG, JPEG, PNG, WEBP, GIF, AVIF or SVG images to each folder.
+Use 01-name.jpg, 02-name.jpg to control order.
+Galleries automatically include all images. Empty folders show placeholders.
+portrait and ted-youth-fund use the first image only.
+While the preview is running, adding images updates the page automatically.
+After publishing, rebuild and redeploy to publish new photos.
+
+Project galleries also accept MP4, WebM, M4V and MOV videos, sorted together with images. Codec playback depends on the browser; MP4 with H.264/AAC is recommended. Videos play on demand, never automatically. Portrait and fund logo remain image-only.
