@@ -3,14 +3,14 @@ import {createRoot} from 'react-dom/client';
 import './style.css';
 
 const photoFiles=import.meta.glob('../photos/**/*', {eager:true, query:'?url', import:'default'});
-function photos(folder){return Object.entries(photoFiles).filter(([path])=>path.startsWith('../photos/'+folder+'/') && /\.(jpe?g|png|webp|gif|avif|svg)$/i.test(path)).sort(([a],[b])=>a.localeCompare(b,undefined,{numeric:true})).map(([,url])=>url)}
+function photos(folder){return Object.entries(photoFiles).filter(([path])=>path.startsWith('../photos/'+folder+'/') && !path.endsWith('.poster.jpg') && /\.(jpe?g|png|webp|gif|avif|svg)$/i.test(path)).sort(([a],[b])=>a.localeCompare(b,undefined,{numeric:true})).map(([,url])=>url)}
 const projectFolders={orion:'orion',space:'xr-home-design',memory:'llm-memory',architecture:'architecture',plants:'plant-iot'};
-function galleryMedia(folder){return Object.entries(photoFiles).filter(([path])=>path.startsWith('../photos/'+folder+'/') && /\.(jpe?g|png|webp|gif|avif|svg|mp4|webm|m4v|mov)$/i.test(path)).sort(([a],[b])=>a.localeCompare(b,undefined,{numeric:true})).map(([path,url])=>({url,video:/\.(mp4|webm|m4v|mov)$/i.test(path)}))}
+function galleryMedia(folder){return Object.entries(photoFiles).filter(([path])=>path.startsWith('../photos/'+folder+'/') && !path.endsWith('.poster.jpg') && /\.(jpe?g|png|webp|gif|avif|svg|mp4|webm|m4v|mov)$/i.test(path)).sort(([a],[b])=>a.localeCompare(b,undefined,{numeric:true})).map(([path,url])=>({url,poster:photoFiles[path.replace(/\.[^.]+$/,'.poster.jpg')],video:/\.(mp4|webm|m4v|mov)$/i.test(path)}))}
 function PhotoGallery({folder,name,className='project-image'}){
  const items=galleryMedia(folder);const [index,setIndex]=useState(0);const [failed,setFailed]=useState(null);const current=items.length?index%items.length:0;const item=items[current];
  return <div className={'experiment-gallery'+(item?.video?' has-video':'')}>
  <div className={className} aria-label={items.length?name+' media '+(current+1)+' of '+items.length:name+' image placeholder'}>
- {!item?<span className="experiment-placeholder">PROJECT IMAGE PLACEHOLDER</span>:item.video?<><video key={item.url} className="gallery-photo" src={item.url} controls playsInline preload="none" aria-label={name+' — video '+(current+1)} onError={()=>setFailed(item.url)}/>{failed===item.url&&<a className="video-fallback" href={item.url} target="_blank" rel="noreferrer">Unable to play here. Open video ↗</a>}</>:<img className="gallery-photo" src={item.url} alt={name+' — photo '+(current+1)} loading="lazy"/>}
+ {!item?<span className="experiment-placeholder">PROJECT IMAGE PLACEHOLDER</span>:item.video?<><video key={item.url} className="gallery-photo" src={item.url} poster={item.poster} controls playsInline preload="none" aria-label={name+' — video '+(current+1)} onError={()=>setFailed(item.url)}/>{failed===item.url&&<a className="video-fallback" href={item.url} target="_blank" rel="noreferrer">Unable to play here. Open video ↗</a>}</>:<img className="gallery-photo" src={item.url} alt={name+' — photo '+(current+1)} loading="lazy"/>}
  </div>
  {items.length>1&&<div className="experiment-controls"><button aria-label={'Previous media for '+name} onClick={()=>setIndex((current+items.length-1)%items.length)}>←</button><span className="experiment-count" aria-live="polite">{current+1} / {items.length}</span><button aria-label={'Next media for '+name} onClick={()=>setIndex((current+1)%items.length)}>→</button></div>}
  </div>

@@ -88,3 +88,8 @@ html{scroll-padding-top:112px}
 .hero-logo{transform:translateX(-50%)}.hero-logo::before{left:50%;top:50%;transform:translate(-50%,-50%)}.hero-logo>span{display:block;padding:0;letter-spacing:-18px;transform:translate(-9px,-18px);line-height:1}.hero-logo-dot{display:inline-block}
 @media(max-width:760px){.hero-logo>span{letter-spacing:-13px;padding:0;transform:translate(-6px,-13px)}}
 
+
+/* Gallery controls sit below media and leave the full picture unobstructed. */
+.experiment-controls,.has-video .experiment-controls{position:static;width:max-content;margin:12px 0 0 auto;background:transparent;border:1px solid #ffffff26}
+.mentions-grid{max-width:none;gap:28px}.mention-image{height:220px}.mentions-intro h3{font-size:26px}
+@media(max-width:760px){.mentions-grid{gap:16px}.mention-image{height:180px}}
